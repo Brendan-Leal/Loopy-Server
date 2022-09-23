@@ -1,22 +1,18 @@
-const dotenv = require("dotenv").config();
-const axios = require("axios");
-const express = require("express");
-// const querystring = require("query-string");
-const cors = require("cors");
+import * as dotenv from "dotenv";
+dotenv.config();
+import axios from "axios";
+import express from "express";
+import cors from "cors";
 const app = express();
 const PORT = 5000;
 
 app.use(cors());
-// app.use(express.urlencoded());
 app.use(express.json());
 
 const client_id = process.env.CLIENT_ID; // Your client id
 const client_secret = process.env.CLIENT_SECRET; // Your secret
 
 app.get("/", (req, res) => {
-  res.send("home");
-});
-app.get("/test", (req, res) => {
   console.log("Test route");
   console.log(req.query.code);
   res.json({ test: "Foo" });
