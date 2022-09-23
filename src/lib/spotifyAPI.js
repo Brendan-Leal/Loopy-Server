@@ -1,7 +1,7 @@
 import axios from "axios";
 export const spotifyAPI = {
   applicationScopes: "streaming user-read-email user-read-private",
-  
+
   async getTokens({ code, state }) {
     const queryParams = new URLSearchParams({
       grant_type: "authorization_code",
@@ -20,11 +20,15 @@ export const spotifyAPI = {
         params: queryParams,
         headers: { Authorization: "Basic " + auth },
       });
-    //   console.log("tokens: ", res.data);
+      //   console.log("tokens: ", res.data);
       const tokens = res.data;
       return tokens;
     } catch (e) {
       console.log(e);
     }
+  },
+  refreshToken() {
+    // See link for more info
+    // https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
   },
 };
