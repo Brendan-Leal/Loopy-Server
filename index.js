@@ -8,25 +8,23 @@ import express from "express";
 import cors from "cors";
 import session from "express-session";
 import passport from "passport";
+import morgan from "morgan";
 
 const app = express();
 const PORT = process.env.PORT;
 
 app.use(cors());
+app.use(morgan("dev"));
 app.use(express.json());
 app.use(
   session({
+    name: "session",
     secret: "temp secret", // TODO: sign key correctly
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
   })
 );
 
-// TODO: implement real logging
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path}`);
-  next();
-});
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/auth", authRouter);
@@ -35,6 +33,10 @@ app.use("/auth", authRouter);
 app.get("/", ensureAuthenticated, (req, res) => {
   console.log("Authenticated");
   res.json({ test: "Foo" });
+});
+
+app.get("/session-state", ensureAuthenticated, (req, res) => {
+  res.json(req.session.passport.user);
 });
 
 app.listen(PORT, () => {
