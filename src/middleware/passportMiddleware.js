@@ -9,7 +9,10 @@ import { Strategy as SpotifyStrategy } from "passport-spotify";
 //   have a database of user records, the complete spotify profile is serialized
 //   and deserialized.
 passport.serializeUser(function (user, done) {
-  done(null, user);
+  done(null, {
+    displayName: user.displayName,
+    isAuthed: true,
+  });
 });
 
 passport.deserializeUser(function (obj, done) {
@@ -24,7 +27,6 @@ passport.use(
       callbackURL: "http://localhost:" + process.env.PORT + "/auth/callback",
     },
     function (accessToken, refreshToken, expires_in, profile, done) {
-      console.log(accessToken);
       // asynchronous verification, for effect...
       process.nextTick(function () {
         // To keep the example simple, the user's spotify profile is returned to
