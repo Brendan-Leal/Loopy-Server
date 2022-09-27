@@ -1,6 +1,7 @@
 // Local imports
 import "./src/config/loadEnv.js";
 import authRouter from "./src/routes/auth.js";
+import client from "./src/db/client.js";
 import { ensureAuthenticated } from "./src/middleware/ensureAuthenticated.js";
 
 // 3rd party imports
@@ -37,6 +38,18 @@ app.get("/", ensureAuthenticated, (req, res) => {
 
 app.get("/session-state", ensureAuthenticated, (req, res) => {
   res.json(req.session.passport.user);
+});
+
+app.get("/token", ensureAuthenticated, async (req, res) => {
+  console.log(req.session.passport.user);
+  try {
+    const axRes = await client.query(
+      "SELECT access_token FROM tokens INNER JOIN users ON tokens.user_id = users.user_id"
+    );
+    res.json(axRes.rows[0]);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.listen(PORT, () => {
