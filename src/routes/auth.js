@@ -7,6 +7,7 @@ const scope = [
   "user-modify-playback-state",
   "user-read-email",
   "user-read-private",
+  "user-read-playback-state",
 ];
 
 authRouter.get(
