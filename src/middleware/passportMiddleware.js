@@ -69,19 +69,16 @@ passport.use(
 
           // Create timestamp of when access token was created.
           const currentTimeInMilliSec = new Date().getTime();
-          const fiftyFiveMinutesInMilliSec = 60 * 60 * 1000 - 300000;
-          const timeToExpireInMilliSec =
-            currentTimeInMilliSec + fiftyFiveMinutesInMilliSec;
+          const oneHourInMilliSec = 60 * 60 * 1000;
 
-          const expireTime = new Date(timeToExpireInMilliSec)
-            .toLocaleTimeString()
-            .replace(/[APM]/g, "")
-            .trim();
+          const expireTime =
+            new Date(currentTimeInMilliSec + oneHourInMilliSec).now() ;
+
           console.log(expireTime);
 
           // save tokens in DB
           const saveTokenQuery =
-            "INSERT INTO tokens (access_token, refresh_token, expire_time, user_id) VALUES($1, $2, $3, $4)";
+            "INSERT INTO tokens (access_token, refresh_token, expire_time, user_id) VALUES($1, $2, $3, to_timestamp($4))";
           const saveTokenValues = [
             accessToken,
             refreshToken,

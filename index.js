@@ -3,6 +3,7 @@ import "./src/config/loadEnv.js";
 import authRouter from "./src/routes/auth.js";
 import client from "./src/db/client.js";
 import { ensureAuthenticated } from "./src/middleware/ensureAuthenticated.js";
+import { isTokenValid } from "./src/middleware/isTokenValid.js";
 
 // 3rd party imports
 import express from "express";
@@ -51,6 +52,15 @@ app.get("/token", ensureAuthenticated, async (req, res) => {
     console.log(error);
   }
 });
+
+app.get(
+  "/validate-token",
+  ensureAuthenticated,
+  isTokenValid,
+  (req, res) => {
+    
+  }
+);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
