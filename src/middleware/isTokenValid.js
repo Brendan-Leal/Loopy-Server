@@ -1,4 +1,4 @@
-import client from "../db/client.js";
+import client from "../services/client.js";
 import axios from "axios";
 
 export async function isTokenValid(req, res, next) {
