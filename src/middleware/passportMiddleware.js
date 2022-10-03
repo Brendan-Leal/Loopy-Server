@@ -1,4 +1,4 @@
-import client from "../db/client.js";
+import client from "../services/client.js";
 import passport from "passport";
 import { Strategy as SpotifyStrategy } from "passport-spotify";
 
