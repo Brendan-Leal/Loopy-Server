@@ -1,7 +1,7 @@
 // Local imports
 import "./src/config/loadEnv.js";
 import authRouter from "./src/routes/auth.js";
-import client from "./src/db/client.js";
+import client from "./src/services/client.js";
 import { ensureAuthenticated } from "./src/middleware/ensureAuthenticated.js";
 import { isTokenValid } from "./src/middleware/isTokenValid.js";
 
@@ -58,7 +58,7 @@ app.get(
   ensureAuthenticated,
   isTokenValid,
   (req, res) => {
-    
+
   }
 );
 
