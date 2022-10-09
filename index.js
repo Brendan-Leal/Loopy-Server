@@ -1,7 +1,7 @@
 // Local imports
 import "./src/config/loadEnv.js";
 import authRouter from "./src/routes/auth.js";
-import client from "./src/services/client.js";
+import client from "./src/config/client.js";
 import { ensureAuthenticated } from "./src/middleware/ensureAuthenticated.js";
 import { isTokenValid } from "./src/middleware/isTokenValid.js";
 
@@ -18,6 +18,8 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+
+// TODO: use prod ready session store
 app.use(
   session({
     name: "session",
@@ -53,14 +55,7 @@ app.get("/token", ensureAuthenticated, async (req, res) => {
   }
 });
 
-app.get(
-  "/validate-token",
-  ensureAuthenticated,
-  isTokenValid,
-  (req, res) => {
-
-  }
-);
+app.get("/validate-token", ensureAuthenticated, isTokenValid, (req, res) => {});
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
